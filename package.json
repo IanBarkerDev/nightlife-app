@@ -1,0 +1,29 @@
+{
+  "name": "nightlife-app",
+  "version": "0.0.0",
+  "description": "An app that shows bars local to an area and allows users to attend them.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Malical/nightlife-app.git"
+  },
+  "author": "Ian Barker <ibarker94@yahoo.com>",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "mongodb": "^2.1.3",
+    "mongoose": "^4.3.4",
+    "path": "^0.12.7"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "devDependencies": {},
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Malical/nightlife-app/issues"
+  },
+  "homepage": "https://github.com/Malical/nightlife-app"
+}
