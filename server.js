@@ -147,6 +147,20 @@ app.post("/bar/:barName", function(req, res) {
   
 })
 
+// takes a username from cookies and returns the User.bars array for client side to search
+app.get("/user/bars", function(req, res) {
+    var un = req.cookie("userLogged");
+    
+    User.findOne({
+      username: un
+    }, function(err, doc) {
+        if(err) throw err;
+        res.json({
+          doc.bars
+        })
+    })
+})
+
 
 // marks a user as attending a bar
 // takes in a barname, the username is taken from cookies
