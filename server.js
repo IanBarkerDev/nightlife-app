@@ -33,6 +33,72 @@ app.get("/", function(req, res) {
   res.render("index");
 })
 
+// login
+app.post("/login", function(req, res) {
+  var un = req.body.username;
+  var pw = req.body.password;
+  
+  User.findOne({
+    username: un
+  }, function(err, doc) {
+    if(err) throw err;
+    if(doc.password !== pw) {
+      res.json({
+        ret: "password"
+      })
+    } else {
+      res.cookies("userLogged", un);
+      res.json({
+        ret: "success"
+      })
+    }
+  })
+})
+
+//signup
+app.post("/signup", function(req, res) {
+  var un = req.body.username;
+  var pw = req.body.password;
+  var em = req.body.email;
+  var pwC = req.body.passwordConfirm;
+  
+  if(pw !== pwC) {
+    res.json({
+      ret: "confirm"
+    })
+  } else {
+  
+    User.findOne({
+      $or: [
+       {username: un},
+       {email: em}
+      ]
+    }, function(err, doc) {
+        if(err) throw err;
+        if(doc !== null) {
+         res.json({
+            ret: "existing"
+          })
+       } else {
+          var user = new User({
+            username: un,
+            password: pw,
+            email: em,
+            bars: []
+          })
+          
+          user.save();
+          res.cookies("userLogged", un);
+          res.json({
+            ret: "success"
+          })
+        }
+    })
+  }
+})
+
+
+
 // takes a url with a barname attached
 // returns how many people are going to the bar and if the user is going or not
 /*
@@ -151,6 +217,15 @@ app.post("/user/remove/:barName", function(req, res) {
           })
         }
     })
+})
+
+/*
+* /user/profile
+* gets list of bars and some information on each bar that user has selected as attending
+*/
+
+app.get("/user/profile", function(req, res) {
+    var userLogged = req.cookie.userLogged;
 })
 
 app.listen(process.env.PORT, process.env.IP);
