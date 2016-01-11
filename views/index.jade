@@ -1,17 +1,21 @@
 head
+   title Local Bars Meetup
+   link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
+   script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+   script(src="/js/serv-int.js")
 
 body
    div.container-fluid#header
       div.container
          div.button-list
-            button.log-button#login(type="button") Log In
-            button.log-button#signup(type="button") Sign Up
-            button.log-button#logout(type="button") Log Out
-            button.profile-button(type="button") Profile
+            button.log-button#loginModal(type="button") Log In
+            button.log-button#signupModal(type="button") Sign Up
+            button.log-button#logoutButton(type="button") Log Out
+            button.profile-button#profileModal(type="button") Profile
             
         div.search-bar
-           input.search-input#search-value(type="text", placeholder="Insert Location...")
-           button.search-button(type="button", value="Search")
+           input.search-input#searchValue(type="text", placeholder="Insert Location...")
+           button.search-button#searchBar(type="button", value="Search") Search
            
    div.container-fluid#search
       div.container
@@ -23,23 +27,50 @@ body
             div.login-signup-box
                button.close-modal(type="button") X
                div.form
-                  input.form-input(type="text", name="username", placeholder="username")
-                  input.form-input(type="text", name="password", placeholder="password")
-                  button.form-button(type="button", value="Log In")
+                  input.form-input#loginUsername(type="text", name="username", placeholder="username")
+                  input.form-input#loginPassword(type="password", name="password", placeholder="password")
+                  button.form-button#loginButton(type="button", value="Log In") Log In
       
       div.container-fluid#signup
          div.container
             div.login-signup-box
                button.close-modal(type="button") X
                div.form
-                  input.form-input(type="text", name="username", placeholder="username")
-                  input.form-input(type="text", name="email", placeholder="email")
-                  input.form-input(type="text", name="password", placeholder="password")
-                  input.form-input(type="text", name="passwordConfirm", placeholder="password again")
-                  button.form-button(type="button", value="Sign Up")
+                  input.form-input#signupUsername(type="text", name="username", placeholder="username")
+                  input.form-input#signupEmail(type="text", name="email", placeholder="email")
+                  input.form-input#signupPassword(type="password", name="password", placeholder="password")
+                  input.form-input#signupPasswordConfirm(type="password", name="passwordConfirm", placeholder="password again")
+                  button.form-button#signupButton(type="button", value="Sign Up") Sign Up
                   
       div.container-fluid#profile
          div.container
             div.profile-box
                button.close-modal(type="button") X
                div.profile-results
+               
+               
+   script(type="text/javascript").
+      $(document).ready(function() {
+         // login
+         $("#loginButton").on("click", function() {
+            var un = $("#loginUsername").val();
+            var pw = $("#loginPassword").val();
+            userLogin(un, pw);
+         })
+         
+         // signup
+         $("#signupButton").on("click", function() {
+            var un = $("#signupUsername").val();
+            var em = $("#signupEmail").val();
+            var pw = $("#signupPassword").val();
+            var pwC = $("#signupPasswordConfirm").val();
+            
+            userSignup(un, em, pw, pwC);
+         })
+         
+         // search
+         $("#searchBar").on("click", function() {
+            var search = $("#searchValue").val();
+            userSearch(search);
+         })
+      })

@@ -4,7 +4,7 @@ var bodyparser = require("body-parser");
 var cookieparser = require("cookie-parser");
 var path = require("path");
 
-mongoose.connect("mongodb://localhost:27017");
+mongoose.connect("mongodb://admin:mushroommanagegoatsalad@ds043615.mongolab.com:43615/nightlife");
 
 var User = require("./app/models/user.js");
 var Bar = require("./app/models/bar.js");
@@ -14,6 +14,7 @@ var app = express();
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(cookieparser());
+app.use(express.static(path.resolve(__dirname, 'client'), {redirect: false}));
 
 app.set("views", "./views");
 app.set("view engine", "jade");
@@ -42,15 +43,21 @@ app.post("/login", function(req, res) {
     username: un
   }, function(err, doc) {
     if(err) throw err;
-    if(doc.password !== pw) {
+    if(doc === null) {
       res.json({
-        ret: "password"
+        ret: "username"
       })
     } else {
-      res.cookies("userLogged", un);
-      res.json({
-        ret: "success"
-      })
+      if(doc.password !== pw) {
+        res.json({
+          ret: "password"
+        })
+      } else {
+        res.cookie("userLogged", un);
+        res.json({
+          ret: "success"
+        })
+      }
     }
   })
 })
@@ -88,7 +95,7 @@ app.post("/signup", function(req, res) {
           })
           
           user.save();
-          res.cookies("userLogged", un);
+          res.cookie("userLogged", un);
           res.json({
             ret: "success"
           })
@@ -156,7 +163,7 @@ app.get("/user/bars", function(req, res) {
     }, function(err, doc) {
         if(err) throw err;
         res.json({
-          doc.bars
+          data: doc.bars
         })
     })
 })
@@ -210,10 +217,8 @@ app.post("/user/remove/:barName", function(req, res) {
     }, {
       $dec: {
         numGoing: 1
-      }, {
-        $pull: {
-          usersGoing: userLogged
-        }
+      }, $pull: {
+        usersGoing: userLogged
       }
     }, function(err, doc) {
       if(err) throw err;
