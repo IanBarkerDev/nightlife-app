@@ -2,9 +2,9 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var BarSchema = new Schema({
-    ID: {type: Number, unique: true, required: true},
+    ID: {type: String, unique: true, required: true},
     numGoing: Number,
-    userGoing: [String]
+    usersGoing: [String]
 });
 
 var Bar = mongoose.model("Bar", BarSchema);

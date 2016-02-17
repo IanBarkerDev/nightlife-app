@@ -3,6 +3,19 @@ var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
 var cookieparser = require("cookie-parser");
 var path = require("path");
+var yelp = require("node-yelp");
+
+var react = require("react");
+var reactDOM = require("react-dom");
+
+var client = yelp.createClient({
+  oauth: {
+    "consumer_key": "-eSy_Sa6zYSHmhv7xNe-8Q",
+    "consumer_secret": "gwGlGPYR7qt6CbwTHXnjnwfUJ1k",
+    "token": "pvgzpYZ583XAqni_tXvOCgRp_ruObPyg",
+    "token_secret": "f2Iw2GyYqBkbovS57WSux_ylh3s"
+  }
+})
 
 mongoose.connect("mongodb://admin:mushroommanagegoatsalad@ds043615.mongolab.com:43615/nightlife");
 
@@ -19,15 +32,19 @@ app.use(express.static(path.resolve(__dirname, 'client'), {redirect: false}));
 app.set("views", "./views");
 app.set("view engine", "jade");
 
-
+// takes an array and an item and checks if the array contains the item
 function contains(arr, item) {
   for(var i in arr) {
-    if(i === item) {
+    if(arr[i] === item.toString()) {
       return true;
     }
   }
   return false;
 }
+
+
+
+
 
 // render the base page
 app.get("/", function(req, res) {
@@ -105,7 +122,6 @@ app.post("/signup", function(req, res) {
 })
 
 
-
 // takes a url with a barname attached
 // returns how many people are going to the bar and if the user is going or not
 /*
@@ -117,18 +133,19 @@ usergoing:
 app.post("/bar/:barName", function(req, res) {
   var barName = req.params.barName;
   
-  var userLogged = req.cookie.userLogged;
+  var userLogged = req.cookies.userLogged || null;
   
   var numGoing = -1;
   var userGoing = -1;
-  
+
+
   Bar.findOne({
     ID: barName
   }, function(err, doc) {
     if(err) throw err;
     if(doc) {
       numGoing = doc.numGoing;
-      if(userLogged) {
+      if(userLogged !== null) {
         if(contains(doc.usersGoing, userLogged)) {
           userGoing = 1;
         } else {
@@ -137,6 +154,11 @@ app.post("/bar/:barName", function(req, res) {
       } else {
         userGoing = -1;
       }
+      
+      res.json({
+        numGoing: numGoing,
+        userGoing: userGoing
+      })
     } else {
       numGoing = 0;
       if(userLogged) {
@@ -144,30 +166,14 @@ app.post("/bar/:barName", function(req, res) {
       } else {
         userGoing = -1;
       }
+      res.json({
+        numGoing: numGoing,
+        userGoing: userGoing
+      })
     }
   })
   
-  res.json({
-    numGoing: numGoing,
-    userGoing: userGoing
-  })
-  
 })
-
-// takes a username from cookies and returns the User.bars array for client side to search
-app.get("/user/bars", function(req, res) {
-    var un = req.cookie("userLogged");
-    
-    User.findOne({
-      username: un
-    }, function(err, doc) {
-        if(err) throw err;
-        res.json({
-          data: doc.bars
-        })
-    })
-})
-
 
 // marks a user as attending a bar
 // takes in a barname, the username is taken from cookies
@@ -175,7 +181,7 @@ app.get("/user/bars", function(req, res) {
 // then the Bar.ID is appended to User.bars
 app.post("/user/add/:barName", function(req, res) {
     var barName = req.params.barName;
-    var userLogged = req.cookie.userLogged;
+    var userLogged = req.cookies.userLogged;
     
     Bar.findOneAndUpdate({
       ID: barName
@@ -210,31 +216,44 @@ app.post("/user/add/:barName", function(req, res) {
 // no need to store data on a bunch of places that have 0 going
 app.post("/user/remove/:barName", function(req, res) {
     var barName = req.params.barName;
-    var userLogged = req.cookie.userLogged;
+    var userLogged = req.cookies.userLogged;
+    console.log(barName);
     
-    Bar.findOneAndUpdate({
+    Bar.update({
       ID: barName
     }, {
-      $dec: {
-        numGoing: 1
-      }, $pull: {
+      $inc: {
+        numGoing: -1
+      },
+      $pull: {
         usersGoing: userLogged
       }
     }, function(err, doc) {
       if(err) throw err;
-    })
-    
-    Bar.findOne({
+       Bar.findOne({
       ID: barName
     }, function(err, doc) {
         if(err) throw err;
-        if(doc.numGoing === 0) {
-          Bar.remove({
-            ID: barName
-          }, function(err, doc) {
-            if(err) throw err;
-          })
+        if(doc) {
+          if(doc.numGoing === 0) {
+            Bar.remove({
+              ID: barName
+            }, function(err, doc) {
+              if(err) throw err;
+            })
+          }
         }
+    })
+    })
+    
+    User.update({
+      username: userLogged
+    }, {
+      $pull: {
+        bars: barName
+      }
+    }, function(err, doc) {
+      if(err) throw err;
     })
 })
 
@@ -244,7 +263,33 @@ app.post("/user/remove/:barName", function(req, res) {
 */
 
 app.get("/user/profile", function(req, res) {
-    var userLogged = req.cookie.userLogged;
+    var userLogged = req.cookies.userLogged;
+    
+    User.findOne({
+      username: userLogged
+    }, function(err, doc) {
+      if(err) throw err;
+      res.json({
+        bars: doc.bars
+      })
+    })
 })
 
+// makes a search for nearby bars in an area specified by the user
+app.post("/user/search", function(req, res) {
+    var search = req.body.searchQuery;
+    
+    client.search({
+        term: "bars",
+        location: search
+    }).then(function (data) {
+        var businesses = data.businesses;
+        var location = data.region;
+        
+        res.json(businesses);
+        
+    });
+    
+    
+});
 app.listen(process.env.PORT, process.env.IP);

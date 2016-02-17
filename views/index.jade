@@ -1,12 +1,13 @@
 head
    title Local Bars Meetup
    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
-   script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
-   script(src="/js/serv-int.js")
+   link(rel="stylesheet", href="/css/index.css")
 
 body
    div.container-fluid#header
       div.container
+         h1 Local Bars
+         h4 What's Going On Tonight In Your Town...
          div.button-list
             button.log-button#loginModal(type="button") Log In
             button.log-button#signupModal(type="button") Sign Up
@@ -17,45 +18,104 @@ body
            input.search-input#searchValue(type="text", placeholder="Insert Location...")
            button.search-button#searchBar(type="button", value="Search") Search
            
-   div.container-fluid#search
-      div.container
          div.search-results
         
    div.modals
       div.container-fluid#login
-         div.container
-            div.login-signup-box
-               button.close-modal(type="button") X
-               div.form
-                  input.form-input#loginUsername(type="text", name="username", placeholder="username")
-                  input.form-input#loginPassword(type="password", name="password", placeholder="password")
-                  button.form-button#loginButton(type="button", value="Log In") Log In
+         div.login-signup-box
+            button.close-modal(type="button") X
+            div.form
+               input.form-input#loginUsername(type="text", name="username", placeholder="username")
+               input.form-input#loginPassword(type="password", name="password", placeholder="password")
+               button.form-button#loginButton(type="button", value="Log In") Log In
       
       div.container-fluid#signup
-         div.container
-            div.login-signup-box
-               button.close-modal(type="button") X
-               div.form
-                  input.form-input#signupUsername(type="text", name="username", placeholder="username")
-                  input.form-input#signupEmail(type="text", name="email", placeholder="email")
-                  input.form-input#signupPassword(type="password", name="password", placeholder="password")
-                  input.form-input#signupPasswordConfirm(type="password", name="passwordConfirm", placeholder="password again")
-                  button.form-button#signupButton(type="button", value="Sign Up") Sign Up
+         div.login-signup-box
+            button.close-modal(type="button") X
+            div.form
+               input.form-input#signupUsername(type="text", name="username", placeholder="username")
+               input.form-input#signupEmail(type="text", name="email", placeholder="email")
+               input.form-input#signupPassword(type="password", name="password", placeholder="password")
+               input.form-input#signupPasswordConfirm(type="password", name="passwordConfirm", placeholder="password confirm")
+               button.form-button#signupButton(type="button", value="Sign Up") Sign Up
                   
       div.container-fluid#profile
-         div.container
-            div.profile-box
-               button.close-modal(type="button") X
-               div.profile-results
+         div.profile-box
+            button.close-modal(type="button") X
+            div.profile-results
                
-               
+   script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+   script(src="/js/serv-int.js")        
    script(type="text/javascript").
       $(document).ready(function() {
+         var cookieUser = parseCookies(document.cookie, "userLogged");
+         if(cookieUser) {
+            $("#loginModal").css("display", "none");
+            $("#signupModal").css("display", "none");
+            $("#profileModal").css("display", "inline-block");
+            $("#logoutButton").css("display", "inline-block");
+            
+         } else {
+            $("#loginModal").css("display", "inline-block");
+            $("#signupModal").css("display", "inline-block");
+            $("#profileModal").css("display", "none");
+            $("#logoutButton").css("display", "none");
+      
+         }
+         // prompt login modal
+         $("#loginModal").on("click", function() {
+            $(".modals").css("display", "block");
+            $("#login").css("display", "block");
+            
+         })
+         
+         // prompt signup modal
+         $("#signupModal").on("click", function() {
+            $(".modals").css("display", "block");
+            $("#signup").css("display", "block");
+         })
+         
+         // prompt profile modal
+         $("#profileModal").on("click", function() {
+            $(".modals").css("display", "block");
+            $("#profile").css("display", "block");
+         })
+         
+         // close modal by clicking anywhere
+         $(".modals").on("click", function() {
+            $(".modals").css("display", "none");
+            $("#login").css("display", "none");
+            $("#signup").css("display", "none");
+            $("#profile").css("display", "none");
+         })
+         
+         $(".close-modal").on("click", function() {
+            closeModals();
+         })
+         
+         $("#login").on("click", function(e) {
+            e.stopPropagation();
+         })
+         
+         $("#signup").on("click", function(e) {
+            e.stopPropagation();
+         })
+      
+         $("#profile").on("click", function(e) {
+            e.stopPropagation();
+         })
+      
          // login
          $("#loginButton").on("click", function() {
             var un = $("#loginUsername").val();
             var pw = $("#loginPassword").val();
             userLogin(un, pw);
+            $("#loginModal").css("display", "none");
+            $("#signupModal").css("display", "none");
+            $("#profileModal").css("display", "inline-block");
+            $("#logoutButton").css("display", "inline-block");
+            
+            closeModals();
          })
          
          // signup
@@ -66,6 +126,18 @@ body
             var pwC = $("#signupPasswordConfirm").val();
             
             userSignup(un, em, pw, pwC);
+            $("#loginModal").css("display", "none");
+            $("#signupModal").css("display", "none");
+            $("#profileModal").css("display", "inline-block");
+            $("#logoutButton").css("display", "inline-block");
+         })
+         
+         $("#logoutButton").on("click", function() {
+            userLogout();
+         })
+         
+         $(".profile-button").on("click", function() {
+            userProfile();
          })
          
          // search
@@ -73,4 +145,31 @@ body
             var search = $("#searchValue").val();
             userSearch(search);
          })
+         
+         $(".search-results").on("click", ".plus", function() {
+            var barName = $(this).parent().attr("id");
+            addBar(barName);
+         })
+         
+         $(".search-results").on("click", ".remove-bar", function() {
+            var barName = $(this).parent().attr("id");
+            removeBar(barName);
+         })
+         
+         $(".search-results").on("click", ".login-plus", function() {
+            $(".modals").css("display", "block");
+            $("#login").css("display", "block");
+         })
+         
+         
+      
+         
       })
+      
+      function closeModals() {
+         $(".modals").css("display", "none");
+         $("#login").css("display", "none");
+         $("#signup").css("display", "none");
+         $("#profile").css("display", "none");
+      }
+         
