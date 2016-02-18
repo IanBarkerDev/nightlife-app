@@ -146,13 +146,13 @@ body
             userSearch(search);
          })
          
-         $(".search-results").on("click", ".plus", function() {
-            var barName = $(this).parent().attr("id");
+         $(".search-results").on("click", ".add", function() {
+            var barName = $(this).parent().parent().attr("id");
             addBar(barName);
          })
          
-         $(".search-results").on("click", ".remove-bar", function() {
-            var barName = $(this).parent().attr("id");
+         $(".search-results").on("click", ".minus", function() {
+            var barName = $(this).parent().parent().attr("id");
             removeBar(barName);
          })
          

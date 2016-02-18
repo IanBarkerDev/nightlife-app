@@ -207,6 +207,8 @@ app.post("/user/add/:barName", function(req, res) {
     }, function(err, doc) {
       if(err) throw err;
     })
+    
+    res.sendStatus(200);
 })
 
 // unmarks a user as attending a bar
@@ -255,6 +257,8 @@ app.post("/user/remove/:barName", function(req, res) {
     }, function(err, doc) {
       if(err) throw err;
     })
+    
+    res.sendStatus(200);
 })
 
 /*

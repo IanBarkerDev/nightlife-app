@@ -156,21 +156,22 @@ function userSearch(search) {
 }
 
 function addBar(barName) {
-    if(document.cookie.userLogged !== null) {
+    console.log(barName);
+    if(parseCookies(document.cookie, "userLogged") !== null) {
         $.ajax({
             url: "/user/add/" + barName,
             type: "post",
     
             success: function(data) {
-                console.log("Bar added");
+                var num = $("#" + barName + " .number p").html();
+                num = +num;
+                num ++;
+                console.log(num);
+                $("#" + barName + " .number p").text(num);
             }
         })
         
-        var num = $("#" + barName + " .number p").html();
-        num = +num;
-        num ++;
-        console.log(num);
-        $("#" + barName + " .number p").text(num);
+        
         
     } else {
         console.log("2");
@@ -186,7 +187,11 @@ function removeBar(barName) {
         type: "post",
         
         success: function(data) {
-            console.log("Bar removed");
+            var num = $("#" + barName + " .number p").html();
+            num = +num;
+            num --;
+            console.log(num);
+            $("#" + barName + " .number p").text(num);
         }
     })
 }
@@ -194,7 +199,7 @@ function removeBar(barName) {
 function parseCookies(cookies, str) {
     var arr = cookies.split(";");
     for(var s in arr) {
-        var arr2 = s.split("=");
+        var arr2 = arr[s].split("=");
         if(arr2[0] === str) {
             return arr[1];
         }
