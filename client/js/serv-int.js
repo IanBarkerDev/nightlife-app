@@ -168,6 +168,8 @@ function addBar(barName) {
                 num ++;
                 console.log(num);
                 $("#" + barName + " .number p").text(num);
+                
+                switchPlus(barName, 1);
             }
         })
         
@@ -192,6 +194,8 @@ function removeBar(barName) {
             num --;
             console.log(num);
             $("#" + barName + " .number p").text(num);
+            
+            switchPlus(barName, 2);
         }
     })
 }
@@ -206,4 +210,25 @@ function parseCookies(cookies, str) {
     }
     
     return null;
+}
+
+/*
+@param bar: barName
+@param num: 1 = to minus; 2 = to add
+*/
+function switchPlus(bar, num) {
+    
+    var add = '<p class="add"> + </p>';
+    var sub = '<p class="minus"> - </p>';
+    
+    var $plus = $("#" + bar + " .plus");
+    $plus.empty();
+    
+    switch(num) {
+        case 1: $plus.append(sub);
+        break;
+        case 2: $plus.append(add);
+        break;
+        default: break;
+    }
 }
