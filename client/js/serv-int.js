@@ -74,6 +74,7 @@ function userProfile() {
         success: function(data) {
             $(".profile-results").empty();
             $.each(data.bars, function(index, val) {
+                console.log(val);
                 var html = '<p>' + val + '</p>'
                 $(".profile-results").append(html);
             })
@@ -102,7 +103,6 @@ function userSearch(search) {
                     
                     success: function(rtn) {
                         var userGoing = "";
-                        console.log(rtn);
                         if(rtn.userGoing === 1) {
                             userGoing = '<div class="plus">' +
                                             '<p class="minus">' +
@@ -156,7 +156,6 @@ function userSearch(search) {
 }
 
 function addBar(barName) {
-    console.log(barName);
     if(parseCookies(document.cookie, "userLogged") !== null) {
         $.ajax({
             url: "/user/add/" + barName,
@@ -166,24 +165,16 @@ function addBar(barName) {
                 var num = $("#" + barName + " .number p").html();
                 num = +num;
                 num ++;
-                console.log(num);
                 $("#" + barName + " .number p").text(num);
                 
                 switchPlus(barName, 1);
             }
         })
-        
-        
-        
-    } else {
-        console.log("2");
+    
     }
-    
-    
 }
 
 function removeBar(barName) {
-    console.log(barName);
     $.ajax({
         url: "/user/remove/" + barName,
         type: "post",
@@ -192,7 +183,6 @@ function removeBar(barName) {
             var num = $("#" + barName + " .number p").html();
             num = +num;
             num --;
-            console.log(num);
             $("#" + barName + " .number p").text(num);
             
             switchPlus(barName, 2);
@@ -231,4 +221,11 @@ function switchPlus(bar, num) {
         break;
         default: break;
     }
+}
+
+function closeModals() {
+    $(".modals").css("display", "none");
+    $("#login").css("display", "none");
+    $("#signup").css("display", "none");
+    $("#profile").css("display", "none");
 }

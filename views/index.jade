@@ -46,7 +46,7 @@ body
                
    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
    script(src="/js/serv-int.js")        
-   script(type="text/javascript").
+   script(type="js/jQuery.js)
       $(document).ready(function() {
          var cookieUser = parseCookies(document.cookie, "userLogged");
          if(cookieUser) {
@@ -166,10 +166,5 @@ body
          
       })
       
-      function closeModals() {
-         $(".modals").css("display", "none");
-         $("#login").css("display", "none");
-         $("#signup").css("display", "none");
-         $("#profile").css("display", "none");
-      }
+   
          
