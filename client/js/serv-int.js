@@ -1,3 +1,4 @@
+var searchNoLog = false;
 
 // takes a username and password and returns either "password" if password is incorrect or "success" on successful login
 function userLogin(un, pw) {
@@ -17,6 +18,15 @@ function userLogin(un, pw) {
                 case "password": alert("Password does not match one found on file");
                 break;
                 case "success": document.cookie = "userLogged=" + un + "; Path=/; expires=Thu, 01 Jan 2970 00:00:00 UTC;";
+                    $("#loginModal").css("display", "none");
+                    $("#signupModal").css("display", "none");
+                    $("#profileModal").css("display", "inline-block");
+                    $("#logoutButton").css("display", "inline-block");
+                    
+                    if(searchNoLog) {
+                        // if you were not logged in and you searched and then logged in then need to update search divs
+                        updateSearchDivsForLog();
+                    }
                 break;
                 default: break;
             }
@@ -51,6 +61,15 @@ function userSignup(un, em, pw, pwC) {
                     case "existing": alert("Username or email already taken");
                     break;
                     case "success": document.cookie = "userLogged=" + un + "; Path=/; expires=Thu, 01 Jan 2970 00:00:00 UTC;";
+                        $("#loginModal").css("display", "none");
+                        $("#signupModal").css("display", "none");
+                        $("#profileModal").css("display", "inline-block");
+                        $("#logoutButton").css("display", "inline-block");
+                        
+                        if(searchNoLog) {
+                        // if you were not logged in and you searched and then logged in then need to update search divs
+                        updateSearchDivsForLog();
+                    }
                     break;
                     default: break;
                 }
@@ -146,6 +165,7 @@ function userSearch(search) {
                                             '</p>' +
                                         '</div>';
                         } else {
+                            searchNoLog = true;
                             userGoing = '<div class="plus">' +
                                             '<p class="login-plus">' +
                                                 '+' +
@@ -258,4 +278,17 @@ function closeModals() {
     $("#login").css("display", "none");
     $("#signup").css("display", "none");
     $("#profile").css("display", "none");
+}
+
+function updateSearchDivsForLog() {
+    $(".search-results > .bar-box").map(function() {
+        var $this = $(this);
+        var change = $this.children(".plus")[0];
+        
+        var newHTML = '<p class="add"> + </p>';
+        
+        
+        $(change).empty();
+        $(change).append(newHTML);
+    })
 }

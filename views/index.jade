@@ -112,10 +112,6 @@ body
             var un = $("#loginUsername").val();
             var pw = $("#loginPassword").val();
             userLogin(un, pw);
-            $("#loginModal").css("display", "none");
-            $("#signupModal").css("display", "none");
-            $("#profileModal").css("display", "inline-block");
-            $("#logoutButton").css("display", "inline-block");
             
             closeModals();
          })
@@ -128,10 +124,6 @@ body
             var pwC = $("#signupPasswordConfirm").val();
             
             userSignup(un, em, pw, pwC);
-            $("#loginModal").css("display", "none");
-            $("#signupModal").css("display", "none");
-            $("#profileModal").css("display", "inline-block");
-            $("#logoutButton").css("display", "inline-block");
          })
          
          $("#logoutButton").on("click", function() {
@@ -154,13 +146,15 @@ body
          })
          
          $(".search-results").on("click", ".minus", function() {
-            var barName = $(this).parent().parent().parent().attr("id");
+            var barName = $(this).parent().parent().attr("id");
             removeBar(barName);
          })
          
          $(".search-results").on("click", ".login-plus", function() {
             $(".modals").css("display", "block");
             $("#login").css("display", "block");
+            
+            nowLogged = true;
          })
          
          $(".profile-results").on("click", ".add", function() {
