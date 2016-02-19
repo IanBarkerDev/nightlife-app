@@ -164,7 +164,8 @@ body {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  display: none; }
+  display: none;
+  z-index: 10; }
   .modals #login, .modals #signup, .modals #profile {
     display: none;
     position: absolute;
@@ -200,6 +201,116 @@ body {
           background-color: #9775AA; }
   .modals #profile {
     width: 800px; }
+    .modals #profile .profile-box {
+      padding: 1em; }
+      .modals #profile .profile-box .profile-title {
+        font-size: 45px;
+        font-style: italic;
+        text-decoration: underline;
+        color: yellow; }
+      .modals #profile .profile-box .profile-results .bar-box {
+        width: 700px;
+        height: 104px;
+        border: 2px solid yellow;
+        border-radius: 55px 55px 55px 55px;
+        position: relative;
+        background-color: #9775AA;
+        margin: 10px auto; }
+        .modals #profile .profile-box .profile-results .bar-box .bar-information {
+          float: left; }
+          .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 {
+            float: left;
+            margin-left: 15px;
+            position: relative;
+            height: 100px;
+            width: 400px;
+            font-size: 15px; }
+            .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 a, .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 p {
+              margin: 0;
+              padding: 0; }
+            .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 .bar-name {
+              font-size: 25px;
+              color: #0000EE; }
+              .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 .bar-name:hover {
+                color: #800080; }
+            .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 .bar-address {
+              font-style: italic;
+              margin: 1px 0 3px 0; }
+            .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 .bar-phone {
+              position: absolute;
+              bottom: 5px;
+              font-size: 12px; }
+            .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 .bar-review {
+              position: absolute;
+              right: -25px;
+              bottom: 5px;
+              font-size: 12px; }
+            .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-information-2 .bar-star-review {
+              margin-left: 5px; }
+          .modals #profile .profile-box .profile-results .bar-box .bar-information .bar-img {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            float: left; }
+        .modals #profile .profile-box .profile-results .bar-box .plus {
+          float: right;
+          border-radius: 50%;
+          background-color: #FB7F18;
+          width: 100px;
+          height: 100px;
+          font-size: 50px;
+          color: #FFF;
+          position: relative;
+          z-index: 3; }
+          .modals #profile .profile-box .profile-results .bar-box .plus .add {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            padding: 0;
+            font-size: 100px;
+            transform: translate(-50%, -58%);
+            font-weight: 900; }
+          .modals #profile .profile-box .profile-results .bar-box .plus .minus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            padding: 0;
+            font-size: 120px;
+            transform: translate(-50%, -58%);
+            font-weight: 900; }
+          .modals #profile .profile-box .profile-results .bar-box .plus .login-plus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            padding: 0;
+            font-size: 100px;
+            transform: translate(-50%, -58%);
+            font-weight: 900; }
+          .modals #profile .profile-box .profile-results .bar-box .plus:hover {
+            background-color: #D15F00;
+            cursor: pointer;
+            color: #CAC4C4; }
+        .modals #profile .profile-box .profile-results .bar-box .number {
+          float: right;
+          color: #fff;
+          width: 150px;
+          height: 100px;
+          background-color: #813A00;
+          transform: translateX(36%);
+          z-index: 2;
+          border-left: 2px solid yellow;
+          position: relative; }
+          .modals #profile .profile-box .profile-results .bar-box .number p {
+            position: absolute;
+            font-size: 80px;
+            top: 0;
+            left: 50%;
+            transform: translate(-100%, -8%); }
+            .modals #profile .profile-box .profile-results .bar-box .number p:hover {
+              cursor: default; }
   .modals .close-modal {
     position: absolute;
     width: 20px;

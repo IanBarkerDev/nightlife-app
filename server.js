@@ -130,7 +130,7 @@ usergoing:
 0 = not going
 -1 = no user logged in
 */
-app.post("/bar/:barName", function(req, res) {
+app.post("/bar/get/:barName", function(req, res) {
   var barName = req.params.barName;
   
   var userLogged = req.cookies.userLogged || null;
@@ -156,6 +156,7 @@ app.post("/bar/:barName", function(req, res) {
       }
       
       res.json({
+        bar: doc,
         numGoing: numGoing,
         userGoing: userGoing
       })
@@ -167,6 +168,7 @@ app.post("/bar/:barName", function(req, res) {
         userGoing = -1;
       }
       res.json({
+        bar: null,
         numGoing: numGoing,
         userGoing: userGoing
       })
@@ -296,4 +298,13 @@ app.post("/user/search", function(req, res) {
     
     
 });
+
+app.post("/bar/search", function(req, res) {
+  var search = req.body.searchQuery;
+  
+  client.business(search).then(function(data) {
+    res.json(data);
+  })
+})
+
 app.listen(process.env.PORT, process.env.IP);

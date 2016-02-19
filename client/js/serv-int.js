@@ -74,9 +74,39 @@ function userProfile() {
         success: function(data) {
             $(".profile-results").empty();
             $.each(data.bars, function(index, val) {
-                console.log(val);
-                var html = '<p>' + val + '</p>'
-                $(".profile-results").append(html);
+                $.ajax({
+                    url: "/bar/search/",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        searchQuery: val
+                    },
+                    
+                    success: function(rtn) {
+                        var html = '<div class="bar-box" id="' + rtn.id + '">' + 
+                            '<div class="bar-information">' +
+                                '<img class="bar-img" src="' + rtn.image_url + '" alt="Bar Img">' +
+                                '<div class="bar-information-2">' +
+                                    '<a href="' + rtn.url + '" class="bar-name">' + rtn.name + '</a>' +
+                                    '<p class="bar-address">' + rtn.location.display_address.join(" ") + '</p>' +
+                                    '<p class="bar-phone">' + rtn.phone + '</p>' +
+                                    '<div class="bar-review">' +
+                                        '<span class="bar-num-review">' + rtn.review_count + ' Reviews</span>' +
+                                        '<img class="bar-star-review" src="' + rtn.rating_img_url_small + '" alt="Number of Stars">' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="plus">' +
+                                '<p class="minus">' +
+                                    '-' +
+                                '</p>' +
+                            '</div>' +
+                        '</div>';
+                        
+                        $(".profile-results").append(html);
+                    }
+                })
+                
             })
         }
     })
@@ -97,7 +127,7 @@ function userSearch(search) {
             $.each(data, function(index, val) {
                 $(".search-results").empty();
                 $.ajax({
-                    url: "/bar/" + val.id,
+                    url: "/bar/get/" + val.id,
                     type: "post",
                     dataType: "json",
                     
@@ -128,7 +158,7 @@ function userSearch(search) {
                                 '<img class="bar-img" src="' + val.image_url + '" alt="Bar Img">' +
                                 '<div class="bar-information-2">' +
                                     '<a href="' + val.url + '" class="bar-name">' + val.name + '</a>' +
-                                    '<p class="bar-address">' + val.location.display_address + '</p>' +
+                                    '<p class="bar-address">' + val.location.display_address.join(" ") + '</p>' +
                                     '<p class="bar-phone">' + val.phone + '</p>' +
                                     '<div class="bar-review">' +
                                         '<span class="bar-num-review">' + val.review_count + ' Reviews</span>' +

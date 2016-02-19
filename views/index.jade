@@ -41,12 +41,14 @@ body
                   
       div.container-fluid#profile
          div.profile-box
+            p.profile-title My Profile
             button.close-modal(type="button") X
             div.profile-results
+         
                
    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
    script(src="/js/serv-int.js")        
-   script(type="js/jQuery.js)
+   script(type="text/javascript").
       $(document).ready(function() {
          var cookieUser = parseCookies(document.cookie, "userLogged");
          if(cookieUser) {
@@ -152,7 +154,7 @@ body
          })
          
          $(".search-results").on("click", ".minus", function() {
-            var barName = $(this).parent().parent().attr("id");
+            var barName = $(this).parent().parent().parent().attr("id");
             removeBar(barName);
          })
          
@@ -161,10 +163,19 @@ body
             $("#login").css("display", "block");
          })
          
+         $(".profile-results").on("click", ".add", function() {
+            var barName = $(this).parent().attr("id");
+            addBar(barName);
+         })
+         
+         $(".profile-results").on("click", ".minus", function() {
+            var barName = $(this).parent().parent().attr("id");
+            removeBar(barName);
+            $(this).parent().parent().remove();
+         })
+         
          
       
          
       })
-      
-   
          
