@@ -283,12 +283,41 @@ function closeModals() {
 function updateSearchDivsForLog() {
     $(".search-results > .bar-box").map(function() {
         var $this = $(this);
-        var change = $this.children(".plus")[0];
         
-        var newHTML = '<p class="add"> + </p>';
+        var barName = $($this[0]).attr("id");
+        
+        $.ajax({
+            url: "/bar/get/" + barName,
+            type: "post",
+            dataType: "json",
+            
+            success: function(rtn) {
+                var userGoing = "";
+                        if(rtn.userGoing === 1) {
+                            userGoing = '<p class="minus">' +
+                                            '-' +
+                                        '</p>';
+                        } else if (rtn.userGoing === 0) {
+                            userGoing = '<p class="add">' +
+                                            '+' +
+                                        '</p>';
+                        } else {
+                            searchNoLog = true;
+                            userGoing = '<p class="login-plus">' +
+                                            '+' +
+                                        '</p>';
+                        
+                        }
+                        
+                        var change = $this.children(".plus")[0];
         
         
-        $(change).empty();
-        $(change).append(newHTML);
+                        $(change).empty();
+                        $(change).append(userGoing);
+            }
+        })
+        
+        
+        
     })
 }
