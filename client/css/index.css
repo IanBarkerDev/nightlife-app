@@ -8,7 +8,7 @@ body {
     font-style: italic;
     font-size: 30px;
     margin: 20px auto 50px auto; }
-  body .log-button, body .profile-button {
+  body .log-button, body .profile-button, body img {
     display: inline-block;
     font-size: 25px;
     margin: 0 5px;
@@ -16,9 +16,9 @@ body {
     background-color: #882D60;
     color: #fff;
     border-radius: 3px; }
-    body .log-button:hover, body .profile-button:hover {
+    body .log-button:hover, body .profile-button:hover, body img:hover {
       background-color: #440026; }
-    body .log-button#logoutButton, body .log-button#profileModal, body .profile-button#logoutButton, body .profile-button#profileModal {
+    body .log-button#logoutButton, body .log-button#profileModal, body .log-button.yelp-unlogged, body .profile-button#logoutButton, body .profile-button#profileModal, body .profile-button.yelp-unlogged, body img#logoutButton, body img#profileModal, body img.yelp-unlogged {
       display: none; }
   body .search-bar {
     margin: 40px auto 30px auto;

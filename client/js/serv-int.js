@@ -20,8 +20,10 @@ function userLogin(un, pw) {
                 case "success": document.cookie = "userLogged=" + un + "; Path=/; expires=Thu, 01 Jan 2970 00:00:00 UTC;";
                     $("#loginModal").css("display", "none");
                     $("#signupModal").css("display", "none");
+                    $(".yelp-unlogged").css("display", "none");
                     $("#profileModal").css("display", "inline-block");
                     $("#logoutButton").css("display", "inline-block");
+                    $(".yelp-logged").css("display", "inline-block");
                     
                     if(searchNoLog) {
                         // if you were not logged in and you searched and then logged in then need to update search divs
@@ -63,8 +65,10 @@ function userSignup(un, em, pw, pwC) {
                     case "success": document.cookie = "userLogged=" + un + "; Path=/; expires=Thu, 01 Jan 2970 00:00:00 UTC;";
                         $("#loginModal").css("display", "none");
                         $("#signupModal").css("display", "none");
+                        $(".yelp-unlogged").css("display", "none");
                         $("#profileModal").css("display", "inline-block");
                         $("#logoutButton").css("display", "inline-block");
+                        $(".yelp-logged").css("display", "inline-block");
                         
                         if(searchNoLog) {
                         // if you were not logged in and you searched and then logged in then need to update search divs

@@ -10,9 +10,10 @@ body
          h4 What's Going On Tonight In Your Town...
          div.button-list
             button.log-button#loginModal(type="button") Log In
+            img.yelp-unlogged(src="/img/yelp.png")
             button.log-button#signupModal(type="button") Sign Up
-            img(src="/img/yelp.png")
             button.log-button#logoutButton(type="button") Log Out
+            img.yelp-logged(src="/img/yelp.png")
             button.profile-button#profileModal(type="button") My Profile
             
         div.search-bar
@@ -55,14 +56,18 @@ body
          if(cookieUser) {
             $("#loginModal").css("display", "none");
             $("#signupModal").css("display", "none");
+            $(".yelp-unlogged").css("display", "none");
             $("#profileModal").css("display", "inline-block");
             $("#logoutButton").css("display", "inline-block");
+            $(".yelp-logged").css("display", "inline-block");
             
          } else {
             $("#loginModal").css("display", "inline-block");
             $("#signupModal").css("display", "inline-block");
+            $(".yelp-unlogged").css("display", "inline-block");
             $("#profileModal").css("display", "none");
             $("#logoutButton").css("display", "none");
+            $(".yelp-logged").css("display", "none");
       
          }
          // prompt login modal

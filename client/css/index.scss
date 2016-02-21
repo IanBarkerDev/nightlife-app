@@ -24,7 +24,7 @@
             margin: 20px auto 50px auto;
         }
         
-        .log-button, .profile-button {
+        .log-button, .profile-button, img {
             display: inline-block;
             font-size: 25px;
             margin: 0 5px;
@@ -37,7 +37,7 @@
                 background-color: $logButtonColorHover;
             }
             
-            &#logoutButton, &#profileModal {
+            &#logoutButton, &#profileModal,  &.yelp-unlogged{
                 display: none;
             }
         }
