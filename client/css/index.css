@@ -8,18 +8,22 @@ body {
     font-style: italic;
     font-size: 30px;
     margin: 20px auto 50px auto; }
-  body .log-button, body .profile-button, body img {
+  body .log-button, body .profile-button, body .yelp {
     display: inline-block;
     font-size: 25px;
     margin: 0 5px;
     border: none;
     background-color: #882D60;
     color: #fff;
-    border-radius: 3px; }
-    body .log-button:hover, body .profile-button:hover, body img:hover {
+    border-radius: 3px;
+    vertical-align: middle; }
+    body .log-button:hover, body .profile-button:hover, body .yelp:hover {
       background-color: #440026; }
-    body .log-button#logoutButton, body .log-button#profileModal, body .log-button.yelp-unlogged, body .profile-button#logoutButton, body .profile-button#profileModal, body .profile-button.yelp-unlogged, body img#logoutButton, body img#profileModal, body img.yelp-unlogged {
+    body .log-button#logoutButton, body .log-button#profileModal, body .log-button.yelp-unlogged, body .profile-button#logoutButton, body .profile-button#profileModal, body .profile-button.yelp-unlogged, body .yelp#logoutButton, body .yelp#profileModal, body .yelp.yelp-unlogged {
       display: none; }
+  body .yelp {
+    height: 64px;
+    width: 64px; }
   body .search-bar {
     margin: 40px auto 30px auto;
     width: 400px;
@@ -333,5 +337,24 @@ body {
   100% {
     width: 1000px;
     height: 2400px; } }
+@media (min-width: 320px) and (max-width: 400px) {
+  body h1 {
+    font-size: 60px; }
+  body h4 {
+    font-size: 24px;
+    margin-bottom: 20px; }
+  body .log-button, body .profile-button, body .yelp {
+    vertical-align: top; }
+  body .log-button, body .profile-button {
+    width: 51px;
+    height: 51px;
+    font-size: 14px; }
+  body .yelp {
+    height: 51px;
+    width: 51px; }
+  body .search-bar {
+    width: 300px; }
+    body .search-bar .search-input {
+      width: 200px; } }
 
 /*# sourceMappingURL=index.css.map */

@@ -24,7 +24,7 @@
             margin: 20px auto 50px auto;
         }
         
-        .log-button, .profile-button, img {
+        .log-button, .profile-button, .yelp {
             display: inline-block;
             font-size: 25px;
             margin: 0 5px;
@@ -32,6 +32,7 @@
             background-color: $logButtonColor;
             color: #fff;
             border-radius: 3px;
+            vertical-align: middle;
             
             &:hover {
                 background-color: $logButtonColorHover;
@@ -40,6 +41,11 @@
             &#logoutButton, &#profileModal,  &.yelp-unlogged{
                 display: none;
             }
+        }
+        
+        .yelp {
+            height: 64px;
+            width: 64px;
         }
         
         .search-bar {
@@ -486,5 +492,40 @@
         100% {
             width: 1000px;
             height: 2400px;
+        }
+    }
+    
+    @media (min-width: 320px) and (max-width: 400px) {
+        body {
+            h1 {
+                font-size: 60px;
+            }
+            
+            h4 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .log-button, .profile-button, .yelp {
+                vertical-align: top;
+            }
+            
+            .log-button, .profile-button {
+                width: 51px;
+                height: 51px;
+                font-size: 14px;
+            }
+            
+            .yelp {
+                height: 51px;
+                width: 51px;
+            }
+            
+            .search-bar {
+                width: 300px;
+                .search-input {
+                    width: 200px;
+                }
+            }
         }
     }
